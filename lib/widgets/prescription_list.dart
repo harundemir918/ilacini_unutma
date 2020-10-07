@@ -28,7 +28,7 @@ class _PrescriptionListState extends State<PrescriptionList> {
 
   getPrescriptions() async {
     print("${widget.uid}");
-    var url = "http://api.harundemir.org/ilacini_unutma/prescriptions.php?"
+    var url = "$apiUrl/prescriptions.php?"
         "doctor_id=${widget.uid}";
 
     var response = await http.get(url);

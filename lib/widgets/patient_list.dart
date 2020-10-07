@@ -28,7 +28,7 @@ class _PatientListState extends State<PatientList> {
 
   getPatients() async {
     var url =
-        "http://api.harundemir.org/ilacini_unutma/patient.php?doctor_id=${widget.uid}";
+        "$apiUrl/patient.php?doctor_id=${widget.uid}";
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);

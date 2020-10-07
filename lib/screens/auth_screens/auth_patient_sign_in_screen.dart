@@ -132,7 +132,7 @@ class _AuthPatientSignInScreenState extends State<AuthPatientSignInScreen> {
                             ),
                             onPressed: () async {
                               var url =
-                                  "http://api.harundemir.org/ilacini_unutma/users.php?type=$_value";
+                                  "$apiUrl/users.php?type=$_value";
                               var response = await http.get(url);
                               if (response.statusCode == 200) {
                                 var jsonResponse =
