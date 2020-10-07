@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../auth_screens/auth_choose_screen.dart';
@@ -13,6 +14,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
+    setOnBoardingShownTrue();
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (_) => AuthChooseScreen()));
   }
@@ -25,6 +27,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
       alignment: Alignment.bottomCenter,
     );
+  }
+
+  setOnBoardingShownTrue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() async {
+      await prefs.setBool('onBoardingShown', true);
+    });
   }
 
   @override

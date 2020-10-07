@@ -3,6 +3,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart' as crypto;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../panels/panel_doctor/panel_main_screen.dart';
@@ -19,6 +20,16 @@ class _AuthDoctorSignInScreenState extends State<AuthDoctorSignInScreen> {
   String password = "";
   int _value = 1;
   String error = "";
+
+  setLoggedInTrue({int uid, String user, int type}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool('loggedIn', true);
+      prefs.setInt('uid', uid);
+      prefs.setString('user', user);
+      prefs.setInt('type', type);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,9 +168,10 @@ class _AuthDoctorSignInScreenState extends State<AuthDoctorSignInScreen> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => PanelMainScreen(
-                                            id: uid, user: username, type: _value),
+                                            /*id: uid, user: username, type: _value*/),
                                       ),
                                     );
+                                    setLoggedInTrue(uid: uid, user: username, type: _value);
                                   }
                                 }
                               } else {
