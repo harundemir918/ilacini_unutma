@@ -34,7 +34,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
   }
 
   getMedicines() async {
-    var url = "http://yuztemeleserozet.harundemir.org/ilacini_unutma/medicines.php";
+    var url = "http://api.harundemir.org/ilacini_unutma/medicines.php";
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
@@ -67,7 +67,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
     String medicineUid,
     String code,
   }) async {
-    var url = "http://yuztemeleserozet.harundemir.org/ilacini_unutma/prescriptions.php";
+    var url = "http://api.harundemir.org/ilacini_unutma/prescriptions.php";
     var response = await http.post(url, body: {
       'doctor_id': doctorUid,
       'patient_id': patientUid,

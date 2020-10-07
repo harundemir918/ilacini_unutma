@@ -41,7 +41,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
 
   getPatients() async {
     print("${widget.doctorUid} ${widget.patientUid}");
-    var url = "http://yuztemeleserozet.harundemir.org/ilacini_unutma/prescriptions.php?"
+    var url = "http://api.harundemir.org/ilacini_unutma/prescriptions.php?"
         "doctor_id=${widget.doctorUid}&"
         "patient_id=${widget.patientUid}";
     var response = await http.get(url);
