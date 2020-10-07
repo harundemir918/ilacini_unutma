@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants.dart';
+
 class AddPrescriptionModalSheet extends StatefulWidget {
   final int doctorUid;
   final int patientUid;
@@ -114,7 +116,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
           GestureDetector(
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xff2fa3a3),
+                color: secondaryColor,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -172,7 +174,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
             height: 30,
           ),
           RaisedButton(
-            color: Color(0xff2fa3a3),
+            color: secondaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ilacini_unutma/widgets/blue_square_button.dart';
 
-import '../../constants.dart';
 import 'auth_doctor_sign_in_screen.dart';
 import 'auth_patient_sign_in_screen.dart';
 import 'auth_register_screen.dart';
@@ -43,60 +42,6 @@ class AuthChooseScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    // Material(
-                    //   color: buttonColor,
-                    //   borderRadius: BorderRadius.circular(20),
-                    //   child: InkWell(
-                    //     onTap: () {
-                    //       Navigator.of(context).push(
-                    //         MaterialPageRoute(
-                    //           builder: (context) => AuthDoctorSignInScreen(),
-                    //         ),
-                    //       );
-                    //     },
-                    //     borderRadius: BorderRadius.circular(20),
-                    //     child: Container(
-                    //       height: 150,
-                    //       width: 150,
-                    //       child: Center(
-                    //         child: Text(
-                    //           "Doktor Girişi",
-                    //           style: TextStyle(
-                    //             color: Colors.white,
-                    //             fontSize: 18,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Material(
-                    //   color: buttonColor,
-                    //   borderRadius: BorderRadius.circular(20),
-                    //   child: InkWell(
-                    //     onTap: () {
-                    //       Navigator.of(context).push(
-                    //         MaterialPageRoute(
-                    //           builder: (context) => AuthPatientSignInScreen(),
-                    //         ),
-                    //       );
-                    //     },
-                    //     borderRadius: BorderRadius.circular(20),
-                    //     child: Container(
-                    //       height: 150,
-                    //       width: 150,
-                    //       child: Center(
-                    //         child: Text(
-                    //           "Hasta Girişi",
-                    //           style: TextStyle(
-                    //             color: Colors.white,
-                    //             fontSize: 18,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     BlueSquareButton(
                       title: "Doktor Girişi",
                       function: () => getAuthDoctorSignInScreen(context),

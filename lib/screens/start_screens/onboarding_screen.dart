@@ -42,7 +42,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(16, 10, 16, 16),
-      pageColor: backgroundColor,
+      pageColor: primaryColor,
       imagePadding: EdgeInsets.zero,
     );
 
@@ -86,7 +86,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
-        color: Color(0xFFBDBDBD),
+        color: darkGrayColor,
         activeColor: Colors.white,
         activeSize: Size(22.0, 10.0),
         activeShape: RoundedRectangleBorder(

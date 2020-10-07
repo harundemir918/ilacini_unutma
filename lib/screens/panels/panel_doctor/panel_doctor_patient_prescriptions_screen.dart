@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ilacini_unutma/constants.dart';
 import 'package:ilacini_unutma/widgets/add_prescription_modal_sheet.dart';
 
 import '../../../widgets/app_bar_with_back_button.dart';
@@ -122,7 +123,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
                         Text(
                           "${prescriptionCodeList.length} reçete",
                           style: TextStyle(
-                            color: Color(0xff797979),
+                            color: lightGrayColor,
                             fontSize: 18,
                           ),
                         ),
@@ -174,7 +175,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
                                           prescription[
                                               "prescriptionMedicineName"],
                                           style: TextStyle(
-                                            color: Color(0xff797979),
+                                            color: lightGrayColor,
                                             fontSize: 16,
                                           ),
                                         ),
@@ -184,21 +185,21 @@ class _PanelDoctorPatientPrescriptionsScreenState
                                         Text(
                                           "Sabah: 0 Tane",
                                           style: TextStyle(
-                                            color: Color(0xff797979),
+                                            color: lightGrayColor,
                                             fontSize: 16,
                                           ),
                                         ),
                                         Text(
                                           "Öğle: 0 Tane",
                                           style: TextStyle(
-                                            color: Color(0xff797979),
+                                            color: lightGrayColor,
                                             fontSize: 16,
                                           ),
                                         ),
                                         Text(
                                           "Akşam: 0 Tane",
                                           style: TextStyle(
-                                            color: Color(0xff797979),
+                                            color: lightGrayColor,
                                             fontSize: 16,
                                           ),
                                         ),
@@ -221,7 +222,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
                     child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xff2fa3a3),
+                      backgroundColor: secondaryColor,
                       label: Row(
                         children: [
                           Text("Reçete Ekle"),

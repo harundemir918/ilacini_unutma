@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
 
     return CustomSplash(
       imagePath: "assets/images/splash_logo.png",
-      backGroundColor: backgroundColor,
+      backGroundColor: primaryColor,
       animationEffect: "fade-in",
       logoSize: 200,
       home: OnBoardingScreen(), // wrapper yazılacak

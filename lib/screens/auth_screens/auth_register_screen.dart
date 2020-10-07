@@ -87,7 +87,7 @@ class _AuthRegisterScreenState extends State<AuthRegisterScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: backgroundColor,
+                                color: primaryColor,
                                 width: 2,
                               ),
                             ),
@@ -116,7 +116,7 @@ class _AuthRegisterScreenState extends State<AuthRegisterScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: backgroundColor,
+                                color: primaryColor,
                                 width: 2,
                               ),
                             ),
@@ -138,7 +138,7 @@ class _AuthRegisterScreenState extends State<AuthRegisterScreen> {
                               "Giriş Yap",
                               style: TextStyle(color: Colors.white),
                             ),
-                            color: backgroundColor,
+                            color: primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),

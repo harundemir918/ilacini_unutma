@@ -3,6 +3,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants.dart';
 import 'patient_list_tile.dart';
 
 class PatientList extends StatefulWidget {
@@ -79,7 +80,7 @@ class _PatientListState extends State<PatientList> {
           )
         : CircularProgressIndicator(
             valueColor: new AlwaysStoppedAnimation<Color>(
-              Color(0xff2fa3a3),
+              secondaryColor,
             ),
           );
   }

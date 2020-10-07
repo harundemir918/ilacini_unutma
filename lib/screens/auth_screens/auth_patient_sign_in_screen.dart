@@ -75,7 +75,7 @@ class _AuthPatientSignInScreenState extends State<AuthPatientSignInScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: backgroundColor,
+                                color: primaryColor,
                                 width: 2,
                               ),
                             ),
@@ -104,7 +104,7 @@ class _AuthPatientSignInScreenState extends State<AuthPatientSignInScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: backgroundColor,
+                                color: primaryColor,
                                 width: 2,
                               ),
                             ),
@@ -126,7 +126,7 @@ class _AuthPatientSignInScreenState extends State<AuthPatientSignInScreen> {
                               "Giriş Yap",
                               style: TextStyle(color: Colors.white),
                             ),
-                            color: backgroundColor,
+                            color: primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),

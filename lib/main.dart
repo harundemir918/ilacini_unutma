@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ),
-        scaffoldBackgroundColor: backgroundColor,
+        scaffoldBackgroundColor: primaryColor,
       ),
       home: SplashScreen(),
     );

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="ilacini_unutma"
+        android:label="İlacını Unutma"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

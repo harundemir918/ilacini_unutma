@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class PrescriptionListTile extends StatelessWidget {
   final String prescriptionCode;
   final String prescriptionPatientName;
@@ -61,7 +63,7 @@ class PrescriptionListTile extends StatelessWidget {
                   Text(
                     prescriptionDate,
                     style: TextStyle(
-                      color: Color(0xff797979),
+                      color: lightGrayColor,
                       fontSize: 14,
                     ),
                   ),
