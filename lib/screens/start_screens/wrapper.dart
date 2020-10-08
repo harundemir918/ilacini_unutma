@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ilacini_unutma/screens/auth_screens/auth_choose_screen.dart';
-import 'package:ilacini_unutma/screens/panels/panel_doctor/panel_main_screen.dart';
-import 'package:ilacini_unutma/screens/start_screens/onboarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../screens/auth_screens/auth_choose_screen.dart';
+import '../../screens/panels/panel_doctor/panel_main_screen.dart';
+import '../../screens/start_screens/onboarding_screen.dart';
 
 class Wrapper extends StatefulWidget {
   @override
@@ -12,8 +13,6 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   bool onBoardingShown = false;
   bool loggedIn = false;
-  Widget navigateScreen;
-
 
   @override
   void initState() {

@@ -2,9 +2,10 @@ import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ilacini_unutma/constants.dart';
-import 'package:ilacini_unutma/widgets/add_prescription_modal_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../constants.dart';
+import '../../../widgets/add_prescription_modal_sheet.dart';
 import '../../../widgets/app_bar_with_back_button.dart';
 
 class PanelDoctorPatientPrescriptionsScreen extends StatefulWidget {
@@ -29,6 +30,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
     extends State<PanelDoctorPatientPrescriptionsScreen> {
   String name;
   String surname;
+  int type;
   int prescriptionCount;
   bool prescriptionIsReady = false;
   List<dynamic> prescriptionsList = [];
@@ -36,8 +38,16 @@ class _PanelDoctorPatientPrescriptionsScreenState
 
   @override
   void initState() {
+    _getType();
     getPatients();
     super.initState();
+  }
+
+  _getType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      type = prefs.getInt("type");
+    });
   }
 
   getPatients() async {
@@ -45,29 +55,33 @@ class _PanelDoctorPatientPrescriptionsScreenState
     var url = "$apiUrl/prescriptions.php?"
         "doctor_id=${widget.doctorUid}&"
         "patient_id=${widget.patientUid}";
+
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       prescriptionCount = int.parse(jsonResponse["count"].toString());
       name = jsonResponse["users"][0]["name"];
       surname = jsonResponse["users"][0]["surname"];
-      for (int i = 0; i < prescriptionCount; i++) {
-        print(jsonResponse["users"][i]["code"]);
-        setState(() {
-          prescriptionsList.add({
-            "prescriptionID": jsonResponse["users"][i]["id"],
-            "prescriptionCode": jsonResponse["users"][i]["code"],
-            "prescriptionMedicineName": jsonResponse["users"][i]
-                ["medicine_name"],
+
+      if (prescriptionCount != 0) {
+        for (int i = 0; i < prescriptionCount; i++) {
+          print(jsonResponse["users"][i]["code"]);
+          setState(() {
+            prescriptionsList.add({
+              "prescriptionID": jsonResponse["users"][i]["id"],
+              "prescriptionCode": jsonResponse["users"][i]["code"],
+              "prescriptionMedicineName": jsonResponse["users"][i]
+                  ["medicine_name"],
+            });
+            if (!prescriptionCodeList
+                .contains(jsonResponse["users"][i]["code"])) {
+              prescriptionCodeList.add(jsonResponse["users"][i]["code"]);
+            }
           });
-          if (!prescriptionCodeList
-              .contains(jsonResponse["users"][i]["code"])) {
-            prescriptionCodeList.add(jsonResponse["users"][i]["code"]);
-          }
-        });
+        }
+        print(prescriptionCodeList);
+        prescriptionIsReady = true;
       }
-      print(prescriptionCodeList);
-      prescriptionIsReady = true;
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -156,7 +170,8 @@ class _PanelDoctorPatientPrescriptionsScreenState
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 30),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 30),
                                     padding: EdgeInsets.symmetric(vertical: 20),
                                     child: Column(
                                       crossAxisAlignment:
@@ -221,16 +236,18 @@ class _PanelDoctorPatientPrescriptionsScreenState
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
-                    child: FloatingActionButton.extended(
-                      backgroundColor: secondaryColor,
-                      label: Row(
-                        children: [
-                          Text("Reçete Ekle"),
-                          Icon(Icons.add),
-                        ],
-                      ),
-                      onPressed: () => _addNewPrescription(context),
-                    ),
+                    child: type == 1
+                        ? FloatingActionButton.extended(
+                            backgroundColor: secondaryColor,
+                            label: Row(
+                              children: [
+                                Text("Reçete Ekle"),
+                                Icon(Icons.add),
+                              ],
+                            ),
+                            onPressed: () => _addNewPrescription(context),
+                          )
+                        : Container(),
                   ),
                 ],
               ),

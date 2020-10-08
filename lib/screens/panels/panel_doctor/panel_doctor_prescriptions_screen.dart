@@ -1,17 +1,10 @@
-import 'dart:convert' as convert;
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../widgets/app_bar_with_back_button.dart';
 import '../../../widgets/search_bar.dart';
 import '../../../widgets/prescription_list.dart';
 
 class PanelDoctorPrescriptionsScreen extends StatefulWidget {
-  final int uid;
-
-  PanelDoctorPrescriptionsScreen({this.uid});
-
   @override
   _PanelDoctorPrescriptionsScreenState createState() =>
       _PanelDoctorPrescriptionsScreenState();
@@ -19,7 +12,6 @@ class PanelDoctorPrescriptionsScreen extends StatefulWidget {
 
 class _PanelDoctorPrescriptionsScreenState
     extends State<PanelDoctorPrescriptionsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +36,7 @@ class _PanelDoctorPrescriptionsScreenState
                 SizedBox(
                   height: 50,
                 ),
-                PrescriptionList(uid: widget.uid,),
+                PrescriptionList(),
               ],
             ),
           ),

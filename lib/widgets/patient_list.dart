@@ -2,33 +2,39 @@ import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 import 'patient_list_tile.dart';
 
 class PatientList extends StatefulWidget {
-  final int uid;
-  final int type;
-
-  PatientList({this.uid, this.type});
-
   @override
   _PatientListState createState() => _PatientListState();
 }
 
 class _PatientListState extends State<PatientList> {
+  int uid;
+  int type;
   List<dynamic> patientsList = [];
   bool patientIsReady = false;
 
   @override
   void initState() {
-    getPatients();
+    _getUserUidAndType();
     super.initState();
   }
 
+  _getUserUidAndType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      uid = prefs.getInt("uid");
+      type = prefs.getInt("type");
+    });
+    getPatients();
+  }
+
   getPatients() async {
-    var url =
-        "$apiUrl/patient.php?doctor_id=${widget.uid}";
+    var url = "$apiUrl/patient.php?doctor_id=$uid";
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
@@ -66,13 +72,13 @@ class _PatientListState extends State<PatientList> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: PatientListTile(
-                    doctorUid: widget.uid,
+                    doctorUid: uid,
                     patientUid: int.parse(patient["patientID"]),
-                    type: widget.type,
                     patientName: patient["patientName"],
                     patientSurname: patient["patientSurname"],
                     patientPrescriptionCount:
                         int.parse(patient["patientPrescriptionCount"]),
+                    type: type,
                   ),
                 );
               }).toList(),

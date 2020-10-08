@@ -3,13 +3,15 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart' as crypto;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../panels/panel_doctor/panel_main_screen.dart';
 
 class AuthPatientSignInScreen extends StatefulWidget {
   @override
-  _AuthPatientSignInScreenState createState() => _AuthPatientSignInScreenState();
+  _AuthPatientSignInScreenState createState() =>
+      _AuthPatientSignInScreenState();
 }
 
 class _AuthPatientSignInScreenState extends State<AuthPatientSignInScreen> {
@@ -18,6 +20,16 @@ class _AuthPatientSignInScreenState extends State<AuthPatientSignInScreen> {
   String username = "";
   String password = "";
   int _value = 2;
+
+  setLoggedInTrue({int uid, String user, int type}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool('loggedIn', true);
+      prefs.setInt('uid', uid);
+      prefs.setString('user', user);
+      prefs.setInt('type', type);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,32 +143,36 @@ class _AuthPatientSignInScreenState extends State<AuthPatientSignInScreen> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             onPressed: () async {
-                              var url =
-                                  "$apiUrl/users.php?type=$_value";
+                              var url = "$apiUrl/users.php?type=$_value";
                               var response = await http.get(url);
                               if (response.statusCode == 200) {
                                 var jsonResponse =
-                                convert.jsonDecode(response.body);
+                                    convert.jsonDecode(response.body);
                                 int count =
-                                int.parse(jsonResponse["count"].toString());
+                                    int.parse(jsonResponse["count"].toString());
                                 for (int i = 0; i < count; i++) {
                                   var passMD5 = crypto.md5
                                       .convert(convert.utf8.encode(password))
                                       .toString();
                                   print("$username $password $passMD5 $_value");
                                   if (username ==
-                                      jsonResponse["users"][i]
-                                      ["username"] &&
+                                          jsonResponse["users"][i]
+                                              ["username"] &&
                                       passMD5 ==
                                           jsonResponse["users"][i]
-                                          ["password"]) {
-                                    // Navigator.pushReplacement(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => PanelMainScreen(
-                                    //         user: username, type: _value),
-                                    //   ),
-                                    // );
+                                              ["password"]) {
+                                    int uid = int.parse(jsonResponse["users"][i]
+                                            ["id"]
+                                        .toString());
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PanelMainScreen(
+                                            /*id: uid, user: username, type: _value*/),
+                                      ),
+                                    );
+                                    setLoggedInTrue(
+                                        uid: uid, user: username, type: _value);
                                   }
                                 }
                               } else {

@@ -144,8 +144,7 @@ class _AuthDoctorSignInScreenState extends State<AuthDoctorSignInScreen> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             onPressed: () async {
-                              var url =
-                                  "$apiUrl/users.php?type=$_value";
+                              var url = "$apiUrl/users.php?type=$_value";
                               var response = await http.get(url);
                               if (response.statusCode == 200) {
                                 var jsonResponse =
@@ -163,15 +162,18 @@ class _AuthDoctorSignInScreenState extends State<AuthDoctorSignInScreen> {
                                       passMD5 ==
                                           jsonResponse["users"][i]
                                               ["password"]) {
-                                    int uid = int.parse(jsonResponse["users"][i]["id"].toString());
-                                    Navigator.pushReplacement(
+                                    int uid = int.parse(jsonResponse["users"][i]
+                                            ["id"]
+                                        .toString());
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => PanelMainScreen(
                                             /*id: uid, user: username, type: _value*/),
                                       ),
                                     );
-                                    setLoggedInTrue(uid: uid, user: username, type: _value);
+                                    setLoggedInTrue(
+                                        uid: uid, user: username, type: _value);
                                   }
                                 }
                               } else {

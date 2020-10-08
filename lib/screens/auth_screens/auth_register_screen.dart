@@ -143,8 +143,7 @@ class _AuthRegisterScreenState extends State<AuthRegisterScreen> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             onPressed: () async {
-                              var url =
-                                  "$apiUrl/users.php?type=$_value";
+                              var url = "$apiUrl/users.php?type=$_value";
                               var response = await http.get(url);
                               if (response.statusCode == 200) {
                                 var jsonResponse =
@@ -155,8 +154,7 @@ class _AuthRegisterScreenState extends State<AuthRegisterScreen> {
                                   var passMD5 = crypto.md5
                                       .convert(convert.utf8.encode(password))
                                       .toString();
-                                  print(
-                                      "$username $password $passMD5 $_value");
+                                  print("$username $password $passMD5 $_value");
                                   if (username ==
                                           jsonResponse["users"][i]
                                               ["username"] &&

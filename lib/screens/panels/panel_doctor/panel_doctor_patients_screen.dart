@@ -1,19 +1,10 @@
-import 'dart:convert' as convert;
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-import '../../panels/panel_doctor/panel_doctor_patient_prescriptions_screen.dart';
 import '../../../widgets/app_bar_with_back_button.dart';
 import '../../../widgets/search_bar.dart';
 import '../../../widgets/patient_list.dart';
 
 class PanelDoctorPatientsScreen extends StatefulWidget {
-  final int uid;
-  final int type;
-
-  PanelDoctorPatientsScreen({this.uid, this.type});
-
   @override
   _PanelDoctorPatientsScreenState createState() =>
       _PanelDoctorPatientsScreenState();
@@ -44,7 +35,7 @@ class _PanelDoctorPatientsScreenState extends State<PanelDoctorPatientsScreen> {
                 SizedBox(
                   height: 50,
                 ),
-                PatientList(uid: widget.uid, type: widget.type,),
+                PatientList(),
               ],
             ),
           ),

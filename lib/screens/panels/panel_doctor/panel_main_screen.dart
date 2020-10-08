@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+
+import '../../../constants.dart';
+import '../../auth_screens/auth_choose_screen.dart';
 import 'panel_doctor_patients_screen.dart';
 import 'panel_doctor_prescriptions_screen.dart';
 import '../../../widgets/app_bar_with_logout_button.dart';
 import '../../../widgets/blue_square_button.dart';
 
 class PanelMainScreen extends StatefulWidget {
-  // final int id;
-  // final String user;
-  // final int type;
-  //
-  // PanelMainScreen({this.id, this.user, this.type});
 
   @override
   _PanelMainScreenState createState() => _PanelMainScreenState();
@@ -19,6 +20,7 @@ class PanelMainScreen extends StatefulWidget {
 
 class _PanelMainScreenState extends State<PanelMainScreen> {
   int uid;
+  int doctorUid;
   String user;
   int type;
 
@@ -36,12 +38,39 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
       user = prefs.getString('user');
       type = prefs.getInt('type');
     });
+
+    if (type == 2) {
+      var url = "$apiUrl/patient.php?patient_id=$uid";
+
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        doctorUid = int.parse(jsonResponse["users"][0]["doctor_id"].toString());
+        print(jsonResponse["users"][0]);
+        setState(() {
+          prefs.setInt("doctorUid", doctorUid);
+        });
+        print("doc: $doctorUid");
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    }
+  }
+
+  _logOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      prefs.setBool("loggedIn", false);
+    });
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => AuthChooseScreen()));
   }
 
   void getPanelDoctorPatientsScreen(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PanelDoctorPatientsScreen(uid: uid, type: type),
+        builder: (context) => PanelDoctorPatientsScreen(),
       ),
     );
   }
@@ -49,7 +78,7 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
   void getPanelDoctorPrescriptionsScreen(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PanelDoctorPrescriptionsScreen(uid: uid),
+        builder: (context) => PanelDoctorPrescriptionsScreen(),
       ),
     );
   }
@@ -80,8 +109,7 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
                 ),
                 BlueSquareButton(
                   title: "Reçetelerim",
-                  function: () =>
-                      getPanelDoctorPrescriptionsScreen(context),
+                  function: () => getPanelDoctorPrescriptionsScreen(context),
                 ),
               ],
             ),
@@ -113,9 +141,9 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
               children: [
                 BlueSquareButton(
                   title: "Reçetelerim",
-                  function: () =>
-                      getPanelDoctorPrescriptionsScreen(context),
+                  function: () => getPanelDoctorPrescriptionsScreen(context),
                 ),
+                FlatButton(onPressed: () => _logOut(), child: Text("Logout")),
               ],
             ),
           ],
@@ -126,11 +154,21 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("Uid: $uid");
+    print("DoctorUid = $doctorUid");
+    print("Type: $type");
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 30),
-          child: type == 1 ? _buildDoctorPanel(context) : _buildPatientPanel(context),
+        child: DoubleBackToCloseApp(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 30),
+            child: type == 1
+                ? _buildDoctorPanel(context)
+                : _buildPatientPanel(context),
+          ),
+          snackBar: const SnackBar(
+            content: Text("Uygulamadan çıkmak için tekrar dokunun."),
+          ),
         ),
       ),
     );

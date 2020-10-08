@@ -16,6 +16,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String notifyContent;
+
   @override
   void initState() {
     configOneSignal();
@@ -24,10 +25,12 @@ class _MyAppState extends State<MyApp> {
 
   void configOneSignal() async {
     await OneSignal.shared.init("9b829111-16be-422d-908d-7f02d9238b98");
-    OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
     OneSignal.shared.setNotificationReceivedHandler((notification) {
       setState(() {
-        notifyContent = notification.jsonRepresentation().replaceAll('\\n', '\n');
+        notifyContent =
+            notification.jsonRepresentation().replaceAll('\\n', '\n');
       });
     });
   }
