@@ -28,6 +28,12 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
   int _count = 1;
   int _value;
   bool medicineIsReady = false;
+  String _morningNumber = "0";
+  String _noonNumber = "0";
+  String _eveningNumber = "0";
+  TimeOfDay _morningTime = TimeOfDay.fromDateTime(DateTime.now());
+  TimeOfDay _noonTime = TimeOfDay.fromDateTime(DateTime.now());
+  TimeOfDay _eveningTime = TimeOfDay.fromDateTime(DateTime.now());
 
   @override
   void initState() {
@@ -48,6 +54,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
           _medicines.add({
             "medicineID": jsonResponse["medicines"][i]["id"],
             "medicineName": jsonResponse["medicines"][i]["name"],
+            "medicineImage": jsonResponse["medicines"][i]["image"],
           });
           items.add(
             DropdownMenuItem(
@@ -67,6 +74,12 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
     String doctorUid,
     String patientUid,
     String medicineUid,
+    String morningNumber,
+    String morningTime,
+    String noonNumber,
+    String noonTime,
+    String eveningNumber,
+    String eveningTime,
     String code,
   }) async {
     var url = "$apiUrl/prescriptions.php";
@@ -74,6 +87,12 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
       'doctor_id': doctorUid,
       'patient_id': patientUid,
       'medicine_id': medicineUid,
+      'morning_number': morningNumber,
+      'morning_time': morningTime,
+      'noon_number': noonNumber,
+      'noon_time': noonTime,
+      'evening_number': eveningNumber,
+      'evening_time': eveningTime,
       'code': code
     });
     if (response.statusCode == 201) {
@@ -83,10 +102,72 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
     }
   }
 
+  createNotification({
+    String time,
+    String image,
+  }) async {
+    var url = "http://api.harundemir.org/ilacini_unutma/create_notification.php";
+    var response = await http.post(url, body: {
+      'time': time,
+      'image_url': image,
+    });
+    print(response.body);
+  }
+
+  Future<void> _showMorningTimePicker() async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: _morningTime,
+    );
+    if (picked != null && picked != _morningTime) {
+      setState(() {
+        _morningTime = picked;
+      });
+    }
+  }
+
+  Future<void> _showNoonTimePicker() async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: _noonTime,
+    );
+    if (picked != null && picked != _noonTime) {
+      setState(() {
+        _noonTime = picked;
+      });
+    }
+  }
+
+  Future<void> _showEveningTimePicker() async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: _eveningTime,
+    );
+    if (picked != null && picked != _eveningTime) {
+      setState(() {
+        _eveningTime = picked;
+      });
+    }
+  }
+
+  String get _getMorningTime {
+    return _morningTime.format(context);
+  }
+
+  String get _getNoonTime {
+    return _noonTime.format(context);
+  }
+
+  String get _getEveningTime {
+    return _eveningTime.format(context);
+  }
+
+// TODO: Saat ve tarih ekleme yapılacak
   Widget _buildMedicine() {
     return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: 200,
@@ -95,16 +176,6 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
               decoration: InputDecoration(
                 border: InputBorder.none,
               ),
-              // items: [
-              //   DropdownMenuItem(
-              //     child: Text("Doktor Kaydı"),
-              //     value: 1,
-              //   ),
-              //   DropdownMenuItem(
-              //     child: Text("Hasta Kaydı"),
-              //     value: 2,
-              //   ),
-              // ],
               items: medicineIsReady ? items : [],
               onChanged: (value) {
                 setState(() {
@@ -113,36 +184,279 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
               },
             ),
           ),
-          GestureDetector(
-            child: Container(
-              decoration: BoxDecoration(
-                color: secondaryColor,
-                shape: BoxShape.circle,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Sabah",
+                style: TextStyle(color: lightGrayColor),
               ),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 30,
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    child: Text(
+                      "Adet",
+                      style: TextStyle(color: lightGrayColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 100,
+                    child: TextFormField(
+                      decoration: InputDecoration(hintText: "Adet"),
+                      initialValue: _morningNumber,
+                      onChanged: (val) {
+                        _morningNumber = val;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    child: Text(
+                      "Saat",
+                      style: TextStyle(color: lightGrayColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 100,
+                    child: Text(_getMorningTime),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: _showMorningTimePicker,
+                    child: Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Divider(
+            height: 50,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Öğle",
+                style: TextStyle(color: lightGrayColor),
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    child: Text(
+                      "Adet",
+                      style: TextStyle(color: lightGrayColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 100,
+                    child: TextFormField(
+                      decoration: InputDecoration(hintText: "Adet"),
+                      initialValue: _noonNumber,
+                      onChanged: (val) {
+                        _noonNumber = val;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    child: Text(
+                      "Saat",
+                      style: TextStyle(color: lightGrayColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 100,
+                    child: Text(_getNoonTime),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () => _showNoonTimePicker(),
+                    child: Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Divider(
+            height: 50,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Akşam",
+                style: TextStyle(color: lightGrayColor),
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    child: Text(
+                      "Adet",
+                      style: TextStyle(color: lightGrayColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 100,
+                    child: TextFormField(
+                      decoration: InputDecoration(hintText: "Adet"),
+                      initialValue: _eveningNumber,
+                      onChanged: (val) {
+                        _eveningNumber = val;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    child: Text(
+                      "Saat",
+                      style: TextStyle(color: lightGrayColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 100,
+                    child: Text(_getEveningTime),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: _showEveningTimePicker,
+                    child: Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+              child: GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                onTap: () => _addNewMedicine(
+                    doctorUid: widget.doctorUid.toString(),
+                    patientUid: widget.patientUid.toString(),
+                    medicineUid: _value.toString(),
+                    morningNumber: _morningNumber,
+                    morningTime: _getMorningTime,
+                    noonNumber: _noonNumber,
+                    noonTime: _getNoonTime,
+                    eveningNumber: _eveningNumber,
+                    eveningTime: _getEveningTime,
+                    image: _medicines[_value-1]["medicineImage"],
+                    code: code),
               ),
             ),
-            onTap: () => _addNewMedicine(
-                doctorUid: widget.doctorUid,
-                patientUid: widget.patientUid,
-                medicineUid: _value,
-                code: code),
-          )
+          ),
         ],
       ),
     );
   }
 
-  void _addNewMedicine(
-      {int doctorUid, int patientUid, int medicineUid, String code}) {
+  void _addNewMedicine({
+    String doctorUid,
+    String patientUid,
+    String medicineUid,
+    String morningNumber,
+    String morningTime,
+    String noonNumber,
+    String noonTime,
+    String eveningNumber,
+    String eveningTime,
+    String image,
+    String code,
+  }) {
     setState(() {
       _prescriptions.add({
         "doctor_id": doctorUid,
         "patient_id": patientUid,
         "medicine_id": medicineUid,
+        'morning_number': morningNumber,
+        'morning_time': morningTime,
+        'noon_number': noonNumber,
+        'noon_time': noonTime,
+        'evening_number': eveningNumber,
+        'evening_time': eveningTime,
+        'image': image,
         "code": code,
       });
       _count = _count + 1;
@@ -165,7 +479,8 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
           ),
           Text("Reçete kodu: $code"),
           Container(
-            height: 200,
+            height: 250,
+            width: double.infinity,
             child: ListView(
               children: _medicines,
             ),
@@ -191,7 +506,25 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
                       doctorUid: prescription["doctor_id"].toString(),
                       patientUid: prescription["patient_id"].toString(),
                       medicineUid: prescription["medicine_id"].toString(),
+                      morningNumber: prescription["morning_number"],
+                      morningTime: prescription["morning_time"],
+                      noonNumber: prescription["morning_number"],
+                      noonTime: prescription["morning_time"],
+                      eveningNumber: prescription["evening_number"],
+                      eveningTime: prescription["evening_time"],
                       code: prescription["code"],
+                    );
+                    createNotification(
+                      time: prescription["morning_time"],
+                      image: prescription["image"],
+                    );
+                    createNotification(
+                      time: prescription["noon_time"],
+                      image: prescription["image"],
+                    );
+                    createNotification(
+                      time: prescription["evening_time"],
+                      image: prescription["image"],
                     );
                   },
                 );

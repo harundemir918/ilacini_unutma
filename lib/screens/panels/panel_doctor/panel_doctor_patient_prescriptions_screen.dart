@@ -72,6 +72,12 @@ class _PanelDoctorPatientPrescriptionsScreenState
               "prescriptionCode": jsonResponse["users"][i]["code"],
               "prescriptionMedicineName": jsonResponse["users"][i]
                   ["medicine_name"],
+              "prescriptionMorningNumber": jsonResponse["users"][i]["morning_number"],
+              "prescriptionMorningTime": jsonResponse["users"][i]["morning_time"],
+              "prescriptionNoonNumber": jsonResponse["users"][i]["noon_number"],
+              "prescriptionNoonTime": jsonResponse["users"][i]["noon_time"],
+              "prescriptionEveningNumber": jsonResponse["users"][i]["evening_number"],
+              "prescriptionEveningTime": jsonResponse["users"][i]["evening_time"],
             });
             if (!prescriptionCodeList
                 .contains(jsonResponse["users"][i]["code"])) {
@@ -198,21 +204,21 @@ class _PanelDoctorPatientPrescriptionsScreenState
                                           height: 10,
                                         ),
                                         Text(
-                                          "Sabah: 0 Tane",
+                                          "Sabah: ${prescription["prescriptionMorningNumber"]} Tane",
                                           style: TextStyle(
                                             color: lightGrayColor,
                                             fontSize: 16,
                                           ),
                                         ),
                                         Text(
-                                          "Öğle: 0 Tane",
+                                          "Öğle: ${prescription["prescriptionNoonNumber"]} Tane",
                                           style: TextStyle(
                                             color: lightGrayColor,
                                             fontSize: 16,
                                           ),
                                         ),
                                         Text(
-                                          "Akşam: 0 Tane",
+                                          "Akşam: ${prescription["prescriptionEveningNumber"]} Tane",
                                           style: TextStyle(
                                             color: lightGrayColor,
                                             fontSize: 16,
