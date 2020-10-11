@@ -9,6 +9,7 @@ class PatientListTile extends StatelessWidget {
   final int type;
   final String patientName;
   final String patientSurname;
+  final String patientDevicePlayerId;
   final int patientPrescriptionCount;
 
   PatientListTile({
@@ -17,6 +18,7 @@ class PatientListTile extends StatelessWidget {
     this.type,
     this.patientName,
     this.patientSurname,
+    this.patientDevicePlayerId,
     this.patientPrescriptionCount,
   });
 
@@ -30,6 +32,7 @@ class PatientListTile extends StatelessWidget {
             patientUid: patientUid,
             patientName: patientName,
             patientSurname: patientSurname,
+            patientDevicePlayerId: patientDevicePlayerId,
           ),
         ),
       );

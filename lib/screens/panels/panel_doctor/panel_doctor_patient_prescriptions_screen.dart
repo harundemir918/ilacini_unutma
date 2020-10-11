@@ -13,12 +13,14 @@ class PanelDoctorPatientPrescriptionsScreen extends StatefulWidget {
   final int patientUid;
   final String patientName;
   final String patientSurname;
+  final String patientDevicePlayerId;
 
   PanelDoctorPatientPrescriptionsScreen({
     this.doctorUid,
     this.patientUid,
     this.patientName,
     this.patientSurname,
+    this.patientDevicePlayerId,
   });
 
   @override
@@ -100,6 +102,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
         return AddPrescriptionModalSheet(
           doctorUid: widget.doctorUid,
           patientUid: widget.patientUid,
+          patientDevicePlayerId: widget.patientDevicePlayerId,
         );
       },
     );

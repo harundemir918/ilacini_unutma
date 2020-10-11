@@ -3,16 +3,19 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:http/http.dart' as http;
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../constants.dart';
 
 class AddPrescriptionModalSheet extends StatefulWidget {
   final int doctorUid;
   final int patientUid;
+  final String patientDevicePlayerId;
 
   AddPrescriptionModalSheet({
     this.doctorUid,
     this.patientUid,
+    this.patientDevicePlayerId,
   });
 
   @override
@@ -102,17 +105,17 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
     }
   }
 
-  createNotification({
-    String time,
-    String image,
-  }) async {
-    var url = "http://api.harundemir.org/ilacini_unutma/create_notification.php";
-    var response = await http.post(url, body: {
-      'time': time,
-      'image_url': image,
-    });
-    print(response.body);
-  }
+  // createNotification({
+  //   String time,
+  //   String image,
+  // }) async {
+  //   var url = "http://api.harundemir.org/ilacini_unutma/create_notification.php";
+  //   var response = await http.post(url, body: {
+  //     'time': time,
+  //     'image_url': image,
+  //   });
+  //   print(response.body);
+  // }
 
   Future<void> _showMorningTimePicker() async {
     final picked = await showTimePicker(
@@ -162,7 +165,6 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
     return _eveningTime.format(context);
   }
 
-// TODO: Saat ve tarih ekleme yapılacak
   Widget _buildMedicine() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
@@ -416,13 +418,14 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
                     doctorUid: widget.doctorUid.toString(),
                     patientUid: widget.patientUid.toString(),
                     medicineUid: _value.toString(),
+                    medicineName: _medicines[_value - 1]["medicineName"],
                     morningNumber: _morningNumber,
                     morningTime: _getMorningTime,
                     noonNumber: _noonNumber,
                     noonTime: _getNoonTime,
                     eveningNumber: _eveningNumber,
                     eveningTime: _getEveningTime,
-                    image: _medicines[_value-1]["medicineImage"],
+                    image: _medicines[_value - 1]["medicineImage"],
                     code: code),
               ),
             ),
@@ -436,6 +439,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
     String doctorUid,
     String patientUid,
     String medicineUid,
+    String medicineName,
     String morningNumber,
     String morningTime,
     String noonNumber,
@@ -450,6 +454,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
         "doctor_id": doctorUid,
         "patient_id": patientUid,
         "medicine_id": medicineUid,
+        "medicine_name": medicineName,
         'morning_number': morningNumber,
         'morning_time': morningTime,
         'noon_number': noonNumber,
@@ -461,6 +466,22 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
       });
       _count = _count + 1;
     });
+  }
+
+  void sendNotification(String medicineName, String image, String time) async {
+    var playerId = widget.patientDevicePlayerId;
+
+    await OneSignal.shared.postNotification(OSCreateNotification(
+      playerIds: [playerId],
+      content: "$medicineName ilacınızı aldınız mı?",
+      heading: "İlacını Unutma",
+      buttons: [
+        OSActionButton(text: "Aldım", id: "id1"),
+      ],
+      delayedOption: OSCreateNotificationDelayOption.timezone,
+      deliveryTimeOfDay: time,
+      bigPicture: image,
+    ));
   }
 
   @override
@@ -508,24 +529,30 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
                       medicineUid: prescription["medicine_id"].toString(),
                       morningNumber: prescription["morning_number"],
                       morningTime: prescription["morning_time"],
-                      noonNumber: prescription["morning_number"],
-                      noonTime: prescription["morning_time"],
+                      noonNumber: prescription["noon_number"],
+                      noonTime: prescription["noon_time"],
                       eveningNumber: prescription["evening_number"],
                       eveningTime: prescription["evening_time"],
                       code: prescription["code"],
                     );
-                    createNotification(
-                      time: prescription["morning_time"],
-                      image: prescription["image"],
-                    );
-                    createNotification(
-                      time: prescription["noon_time"],
-                      image: prescription["image"],
-                    );
-                    createNotification(
-                      time: prescription["evening_time"],
-                      image: prescription["image"],
-                    );
+                    // createNotification(
+                    //   time: prescription["morning_time"],
+                    //   image: prescription["image"],
+                    // );
+                    // createNotification(
+                    //   time: prescription["noon_time"],
+                    //   image: prescription["image"],
+                    // );
+                    // createNotification(
+                    //   time: prescription["evening_time"],
+                    //   image: prescription["image"],
+                    // );
+                    sendNotification(prescription["medicine_name"],
+                        prescription["image"], prescription["morning_time"]);
+                    sendNotification(prescription["medicine_name"],
+                        prescription["image"], prescription["noon_time"]);
+                    sendNotification(prescription["medicine_name"],
+                        prescription["image"], prescription["evening_time"]);
                   },
                 );
               });

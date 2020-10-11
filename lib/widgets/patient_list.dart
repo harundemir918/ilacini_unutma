@@ -48,6 +48,8 @@ class _PatientListState extends State<PatientList> {
             "patientID": jsonResponse["users"][i]["patient_id"],
             "patientName": jsonResponse["users"][i]["name"],
             "patientSurname": jsonResponse["users"][i]["surname"],
+            "patientDevicePlayerId": jsonResponse["users"][i]
+                ["device_player_id"],
             "patientPrescriptionCount": jsonResponse["users"][i]
                 ["prescription_count"]
           });
@@ -76,8 +78,9 @@ class _PatientListState extends State<PatientList> {
                     patientUid: int.parse(patient["patientID"]),
                     patientName: patient["patientName"],
                     patientSurname: patient["patientSurname"],
+                    patientDevicePlayerId: patient["patientDevicePlayerId"],
                     patientPrescriptionCount:
-                        int.parse(patient["patientPrescriptionCount"]),
+                    int.parse(patient["patientPrescriptionCount"]),
                     type: type,
                   ),
                 );
