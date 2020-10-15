@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../constants.dart';
+import '../services/notification_service.dart';
 
 class AddPrescriptionModalSheet extends StatefulWidget {
   final int doctorUid;
@@ -24,6 +25,7 @@ class AddPrescriptionModalSheet extends StatefulWidget {
 }
 
 class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
+  NotificationService notificationService = NotificationService();
   String code = randomAlphaNumeric(8).toUpperCase();
   List<dynamic> _prescriptions = [];
   List<dynamic> _medicines = [];
@@ -468,7 +470,15 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
     });
   }
 
-  void sendNotification(String medicineName, String image, String time) async {
+  void sendNotification({
+    String doctorUid,
+    String patientUid,
+    String medicineUid,
+    String medicineName,
+    String image,
+    String time,
+    String code,
+  }) async {
     var playerId = widget.patientDevicePlayerId;
 
     await OneSignal.shared.postNotification(OSCreateNotification(
@@ -476,12 +486,32 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
       content: "$medicineName ilacınızı aldınız mı?",
       heading: "İlacını Unutma",
       buttons: [
-        OSActionButton(text: "Aldım", id: "id1"),
+        OSActionButton(text: "Aldım", id: "taken"),
       ],
       delayedOption: OSCreateNotificationDelayOption.timezone,
       deliveryTimeOfDay: time,
       bigPicture: image,
     ));
+  }
+
+  updateTakenMedicines({
+    String doctorUid,
+    String patientUid,
+    String medicineUid,
+    String code,
+  }) async {
+    var url = "$apiUrl/taken_medicines.php";
+    var response = await http.post(url, body: {
+      'doctor_id': doctorUid,
+      'patient_id': patientUid,
+      'medicine_id': medicineUid,
+      'code': code
+    });
+    if (response.statusCode == 201) {
+      print("Ekleme başarılı.");
+    } else {
+      print("Hata.");
+    }
   }
 
   @override
@@ -521,7 +551,7 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
             onPressed: () {
               setState(() {
                 _prescriptions.forEach(
-                  (prescription) {
+                      (prescription) {
                     print(prescription);
                     createPrescription(
                       doctorUid: prescription["doctor_id"].toString(),
@@ -547,12 +577,36 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
                     //   time: prescription["evening_time"],
                     //   image: prescription["image"],
                     // );
-                    sendNotification(prescription["medicine_name"],
-                        prescription["image"], prescription["morning_time"]);
-                    sendNotification(prescription["medicine_name"],
-                        prescription["image"], prescription["noon_time"]);
-                    sendNotification(prescription["medicine_name"],
-                        prescription["image"], prescription["evening_time"]);
+                    // notificationService.sendNotification(
+                    //   doctorUid: prescription["doctor_id"].toString(),
+                    //   patientUid: prescription["patient_id"].toString(),
+                    //   patientDevicePlayerId: widget.patientDevicePlayerId,
+                    //   medicineUid: prescription["medicine_id"].toString(),
+                    //   medicineName: prescription["medicine_name"],
+                    //   image: prescription["image"],
+                    //   time: prescription["morning_time"],
+                    //   code: prescription["code"],
+                    // );
+                    // notificationService.sendNotification(
+                    //   doctorUid: prescription["doctor_id"].toString(),
+                    //   patientUid: prescription["patient_id"].toString(),
+                    //   patientDevicePlayerId: widget.patientDevicePlayerId,
+                    //   medicineUid: prescription["medicine_id"].toString(),
+                    //   medicineName: prescription["medicine_name"],
+                    //   image: prescription["image"],
+                    //   time: prescription["noon_time"],
+                    //   code: prescription["code"],
+                    // );
+                    // notificationService.sendNotification(
+                    //   doctorUid: prescription["doctor_id"].toString(),
+                    //   patientUid: prescription["patient_id"].toString(),
+                    //   patientDevicePlayerId: widget.patientDevicePlayerId,
+                    //   medicineUid: prescription["medicine_id"].toString(),
+                    //   medicineName: prescription["medicine_name"],
+                    //   image: prescription["image"],
+                    //   time: prescription["evening_time"],
+                    //   code: prescription["code"],
+                    // );
                   },
                 );
               });

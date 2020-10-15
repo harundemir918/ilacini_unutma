@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'services/notification_service.dart';
 
 import 'screens/start_screens/splash_screen.dart';
 import 'constants.dart';
@@ -15,24 +15,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  NotificationService notificationService = NotificationService();
   String notifyContent;
 
   @override
   void initState() {
-    configOneSignal();
+    notificationService.configOneSignal();
     super.initState();
-  }
-
-  void configOneSignal() async {
-    await OneSignal.shared.init("9b829111-16be-422d-908d-7f02d9238b98");
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
-    OneSignal.shared.setNotificationReceivedHandler((notification) {
-      setState(() {
-        notifyContent =
-            notification.jsonRepresentation().replaceAll('\\n', '\n');
-      });
-    });
   }
 
   @override
