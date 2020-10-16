@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import '../screens/panels/panel_doctor/panel_doctor_patient_prescriptions_screen.dart';
+import '../screens/panels/panel_doctor_patient_prescriptions_screen.dart';
 
 class PatientListTile extends StatelessWidget {
   final int doctorUid;

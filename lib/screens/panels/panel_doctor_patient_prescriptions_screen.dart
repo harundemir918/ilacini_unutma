@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../constants.dart';
-import '../../../widgets/add_prescription_modal_sheet.dart';
-import '../../../widgets/app_bar_with_back_button.dart';
+import '../../constants.dart';
+import '../../widgets/add_prescription_modal_sheet.dart';
+import '../../widgets/app_bar_with_back_button.dart';
 
 class PanelDoctorPatientPrescriptionsScreen extends StatefulWidget {
   final int doctorUid;

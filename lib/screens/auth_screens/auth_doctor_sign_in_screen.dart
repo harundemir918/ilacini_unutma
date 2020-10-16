@@ -6,7 +6,7 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
-import '../panels/panel_doctor/panel_main_screen.dart';
+import '../panels/panel_main_screen.dart';
 
 class AuthDoctorSignInScreen extends StatefulWidget {
   @override

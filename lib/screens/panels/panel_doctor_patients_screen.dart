@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../../widgets/app_bar_with_back_button.dart';
-import '../../../widgets/search_bar.dart';
-import '../../../widgets/prescription_list.dart';
+import '../../widgets/app_bar_with_back_button.dart';
+import '../../widgets/search_bar.dart';
+import '../../widgets/patient_list.dart';
 
-class PanelDoctorPrescriptionsScreen extends StatefulWidget {
+class PanelDoctorPatientsScreen extends StatefulWidget {
   @override
-  _PanelDoctorPrescriptionsScreenState createState() =>
-      _PanelDoctorPrescriptionsScreenState();
+  _PanelDoctorPatientsScreenState createState() =>
+      _PanelDoctorPatientsScreenState();
 }
 
-class _PanelDoctorPrescriptionsScreenState
-    extends State<PanelDoctorPrescriptionsScreen> {
+class _PanelDoctorPatientsScreenState extends State<PanelDoctorPatientsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +29,13 @@ class _PanelDoctorPrescriptionsScreenState
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: SearchBar(
-                    hintText: "Reçete arayın",
+                    hintText: "Hasta arayın",
                   ),
                 ),
                 SizedBox(
                   height: 50,
                 ),
-                PrescriptionList(),
+                PatientList(),
               ],
             ),
           ),

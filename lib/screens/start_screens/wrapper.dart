@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../screens/auth_screens/auth_choose_screen.dart';
-import '../../screens/panels/panel_doctor/panel_main_screen.dart';
+import '../panels/panel_main_screen.dart';
 import '../../screens/start_screens/onboarding_screen.dart';
 
 class Wrapper extends StatefulWidget {

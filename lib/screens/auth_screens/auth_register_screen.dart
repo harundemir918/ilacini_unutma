@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart' as crypto;
 
 import '../../constants.dart';
-import '../panels/panel_doctor/panel_main_screen.dart';
+import '../panels/panel_main_screen.dart';
 
 class AuthRegisterScreen extends StatefulWidget {
   @override

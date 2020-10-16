@@ -5,12 +5,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
-import '../../../constants.dart';
-import '../../auth_screens/auth_choose_screen.dart';
+import '../../constants.dart';
+import '../auth_screens/auth_choose_screen.dart';
 import 'panel_doctor_patients_screen.dart';
 import 'panel_doctor_prescriptions_screen.dart';
-import '../../../widgets/app_bar_with_logout_button.dart';
-import '../../../widgets/blue_square_button.dart';
+import '../../widgets/app_bar_with_logout_button.dart';
+import '../../widgets/blue_square_button.dart';
 
 class PanelMainScreen extends StatefulWidget {
 
