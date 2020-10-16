@@ -167,7 +167,10 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
                   title: "Reçetelerim",
                   function: () => getPanelDoctorPrescriptionsScreen(context),
                 ),
-                FlatButton(onPressed: () => _logOut(), child: Text("Logout")),
+                BlueSquareButton(
+                  title: "Bilgilerim",
+                  function: () {},
+                ),
               ],
             ),
           ],
