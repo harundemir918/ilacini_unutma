@@ -15,7 +15,7 @@ class TakenList extends StatefulWidget {
 class _TakenListState extends State<TakenList> {
   List<dynamic> takenMedicinesList = [];
   int prescriptionCount;
-  bool prescriptionIsReady = false;
+  bool takenMedicineIsReady = false;
   int doctorUid;
   int uid;
   int type;
@@ -51,7 +51,7 @@ class _TakenListState extends State<TakenList> {
               "takenMedicinesTime": jsonResponse["users"][i]["time_to_take"],
             });
           });
-          prescriptionIsReady = true;
+          takenMedicineIsReady = true;
         }
       } else {
         print('Request failed with status: ${response.statusCode}.');
@@ -74,7 +74,7 @@ class _TakenListState extends State<TakenList> {
       //         "prescriptionDate": jsonResponse["users"][i]["create_date"],
       //       });
       //     });
-      //     prescriptionIsReady = true;
+      //     takenMedicineIsReady = true;
       //   }
       // } else {
       //   print('Request failed with status: ${response.statusCode}.');
@@ -96,7 +96,7 @@ class _TakenListState extends State<TakenList> {
   Widget build(BuildContext context) {
     return Container(
       height: 500,
-      child: prescriptionIsReady
+      child: takenMedicineIsReady
           ? ListView(
               children: takenMedicinesList.map((takenMedicines) {
                 return Container(
@@ -110,7 +110,7 @@ class _TakenListState extends State<TakenList> {
                     takenMedicines["takenMedicinesPatientName"],
                     takenMedicinesPatientSurname:
                     takenMedicines["takenMedicinesPatientSurname"],
-                          takenMedicinesCode: takenMedicines["takenMedicinesCode"],
+                          takenMedicinesCode: takenMedicines["takenMedicinesCode"].toString(),
                     takenMedicinesMedicineName: takenMedicines["takenMedicinesMedicineName"],
                           takenMedicinesTime: takenMedicines["takenMedicinesTime"],
                           type: type,
