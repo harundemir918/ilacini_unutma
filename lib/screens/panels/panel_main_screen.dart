@@ -9,11 +9,11 @@ import '../../constants.dart';
 import '../auth_screens/auth_choose_screen.dart';
 import 'panel_doctor_patients_screen.dart';
 import 'panel_doctor_prescriptions_screen.dart';
+import 'panel_taken_medicines_screen.dart';
 import '../../widgets/app_bar_with_logout_button.dart';
 import '../../widgets/blue_square_button.dart';
 
 class PanelMainScreen extends StatefulWidget {
-
   @override
   _PanelMainScreenState createState() => _PanelMainScreenState();
 }
@@ -83,6 +83,14 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
     );
   }
 
+  void getPanelTakenMedicinesScreen(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PanelTakenMedicinesScreen(),
+      ),
+    );
+  }
+
   Widget _buildDoctorPanel(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,6 +118,22 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
                 BlueSquareButton(
                   title: "Reçetelerim",
                   function: () => getPanelDoctorPrescriptionsScreen(context),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                BlueSquareButton(
+                  title: "İlaç Alım Bilgisi",
+                  function: () => getPanelTakenMedicinesScreen(context),
+                ),
+                BlueSquareButton(
+                  title: "Bilgilerim",
+                  function: () {},
                 ),
               ],
             ),
