@@ -565,48 +565,36 @@ class _AddPrescriptionModalSheetState extends State<AddPrescriptionModalSheet> {
                       eveningTime: prescription["evening_time"],
                       code: prescription["code"],
                     );
-                    // createNotification(
-                    //   time: prescription["morning_time"],
-                    //   image: prescription["image"],
-                    // );
-                    // createNotification(
-                    //   time: prescription["noon_time"],
-                    //   image: prescription["image"],
-                    // );
-                    // createNotification(
-                    //   time: prescription["evening_time"],
-                    //   image: prescription["image"],
-                    // );
-                    // notificationService.sendNotification(
-                    //   doctorUid: prescription["doctor_id"].toString(),
-                    //   patientUid: prescription["patient_id"].toString(),
-                    //   patientDevicePlayerId: widget.patientDevicePlayerId,
-                    //   medicineUid: prescription["medicine_id"].toString(),
-                    //   medicineName: prescription["medicine_name"],
-                    //   image: prescription["image"],
-                    //   time: prescription["morning_time"],
-                    //   code: prescription["code"],
-                    // );
-                    // notificationService.sendNotification(
-                    //   doctorUid: prescription["doctor_id"].toString(),
-                    //   patientUid: prescription["patient_id"].toString(),
-                    //   patientDevicePlayerId: widget.patientDevicePlayerId,
-                    //   medicineUid: prescription["medicine_id"].toString(),
-                    //   medicineName: prescription["medicine_name"],
-                    //   image: prescription["image"],
-                    //   time: prescription["noon_time"],
-                    //   code: prescription["code"],
-                    // );
-                    // notificationService.sendNotification(
-                    //   doctorUid: prescription["doctor_id"].toString(),
-                    //   patientUid: prescription["patient_id"].toString(),
-                    //   patientDevicePlayerId: widget.patientDevicePlayerId,
-                    //   medicineUid: prescription["medicine_id"].toString(),
-                    //   medicineName: prescription["medicine_name"],
-                    //   image: prescription["image"],
-                    //   time: prescription["evening_time"],
-                    //   code: prescription["code"],
-                    // );
+                    notificationService.sendNotification(
+                      doctorUid: prescription["doctor_id"].toString(),
+                      patientUid: prescription["patient_id"].toString(),
+                      patientDevicePlayerId: widget.patientDevicePlayerId,
+                      medicineUid: prescription["medicine_id"].toString(),
+                      medicineName: prescription["medicine_name"],
+                      image: prescription["image"],
+                      time: prescription["morning_time"],
+                      code: prescription["code"],
+                    );
+                    notificationService.sendNotification(
+                      doctorUid: prescription["doctor_id"].toString(),
+                      patientUid: prescription["patient_id"].toString(),
+                      patientDevicePlayerId: widget.patientDevicePlayerId,
+                      medicineUid: prescription["medicine_id"].toString(),
+                      medicineName: prescription["medicine_name"],
+                      image: prescription["image"],
+                      time: prescription["noon_time"],
+                      code: prescription["code"],
+                    );
+                    notificationService.sendNotification(
+                      doctorUid: prescription["doctor_id"].toString(),
+                      patientUid: prescription["patient_id"].toString(),
+                      patientDevicePlayerId: widget.patientDevicePlayerId,
+                      medicineUid: prescription["medicine_id"].toString(),
+                      medicineName: prescription["medicine_name"],
+                      image: prescription["image"],
+                      time: prescription["evening_time"],
+                      code: prescription["code"],
+                    );
                   },
                 );
               });

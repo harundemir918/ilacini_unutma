@@ -43,25 +43,22 @@ class NotificationService {
     String time,
     String code,
   }) async {
-    var playerId = patientDevicePlayerId;
-
-    await OneSignal.shared.postNotification(OSCreateNotification(
-      playerIds: [playerId],
-      content: "$medicineName ilacınızı aldınız mı?",
-      heading: "İlacını Unutma",
-      buttons: [
-        OSActionButton(text: "Aldım", id: "taken"),
-      ],
-      delayedOption: OSCreateNotificationDelayOption.timezone,
-      deliveryTimeOfDay: time,
-      bigPicture: image,
-      additionalData: {
-        "doctorUid": "1",
-        "patientUid": "3",
-        "medicineUid": "5",
-        "code": "ABCD1234",
-      },
-    ));
+    var url = "$apiUrl/send_one_notification.php";
+    var response = await http.post(url, body: {
+      'doctor_id': doctorUid,
+      'patient_id': patientUid,
+      'medicine_id': medicineUid,
+      'code': code,
+      'medicine_name': medicineName,
+      'image': image,
+      'time': time,
+      'device_player_id': patientDevicePlayerId,
+    });
+    if (response.statusCode == 201) {
+      print("POST başarılı.");
+    } else {
+      print("Hata.");
+    }
   }
 
   updateTakenMedicines({
