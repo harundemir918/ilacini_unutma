@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import '../../../constants.dart';
-import '../auth_screens/auth_choose_screen.dart';
 import 'panel_doctor_patients_screen.dart';
 import 'panel_doctor_prescriptions_screen.dart';
 import 'panel_taken_medicines_screen.dart';
@@ -55,16 +54,6 @@ class _PanelMainScreenState extends State<PanelMainScreen> {
         print('Request failed with status: ${response.statusCode}.');
       }
     }
-  }
-
-  _logOut() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      prefs.setBool("loggedIn", false);
-    });
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => AuthChooseScreen()));
   }
 
   void getPanelDoctorPatientsScreen(BuildContext context) {

@@ -7,11 +7,11 @@ import '../../../providers/prescriptions_provider.dart';
 
 class PatientPrescriptionList extends StatefulWidget {
   final LoadPrescription prescriptionIsReady;
-  final List<PatientPrescription> prescriptionsList;
+  final List<PatientPrescription> patientPrescriptionsList;
 
   PatientPrescriptionList({
     this.prescriptionIsReady,
-    this.prescriptionsList,
+    this.patientPrescriptionsList,
   });
 
   @override
@@ -27,7 +27,7 @@ class _PatientPrescriptionListState extends State<PatientPrescriptionList> {
         return Container(
           height: 400,
           child: ListView(
-            children: widget.prescriptionsList.map((prescription) {
+            children: widget.patientPrescriptionsList.map((prescription) {
               return PatientPrescriptionCard(
                 code: prescription.code,
                 medicineName: prescription.medicineName,

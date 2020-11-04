@@ -6,7 +6,7 @@ import '../../../providers/patients_provider.dart';
 import '../../../models/patients.dart';
 
 class PatientList extends StatefulWidget {
-  final LoadData patientIsReady;
+  final LoadPatients patientIsReady;
   final List<DoctorPatient> patientsList;
   final int uid;
   final int type;
@@ -26,7 +26,7 @@ class _PatientListState extends State<PatientList> {
   @override
   Widget build(BuildContext context) {
     switch (widget.patientIsReady) {
-      case LoadData.loaded:
+      case LoadPatients.loaded:
         return Container(
           height: 500,
           child: ListView(
@@ -51,10 +51,10 @@ class _PatientListState extends State<PatientList> {
           ),
         );
         break;
-      case LoadData.notLoaded:
+      case LoadPatients.notLoaded:
         return Center(child: Text("Hasta bilgisi bulunamadı"));
         break;
-      case LoadData.waiting:
+      case LoadPatients.waiting:
         return CircularProgressIndicator(
           valueColor: new AlwaysStoppedAnimation<Color>(
             secondaryColor,

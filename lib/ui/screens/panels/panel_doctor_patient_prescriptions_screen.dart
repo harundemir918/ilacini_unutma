@@ -91,7 +91,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
   Widget build(BuildContext context) {
     PrescriptionsProvider prescriptionsProvider =
         Provider.of<PrescriptionsProvider>(context);
-    final prescriptionsList = prescriptionsProvider.prescriptionsList;
+    final prescriptionsList = prescriptionsProvider.patientPrescriptionsList;
 
     return Scaffold(
       body: SafeArea(
@@ -126,7 +126,7 @@ class _PanelDoctorPatientPrescriptionsScreenState
                   ),
                   PatientPrescriptionList(
                     prescriptionIsReady: prescriptionIsReady,
-                    prescriptionsList: prescriptionsList,
+                    patientPrescriptionsList: prescriptionsList,
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),

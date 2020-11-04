@@ -10,11 +10,11 @@ class Prescriptions {
     this.count,
   });
 
-  List<Prescription> users;
+  List<DoctorPrescription> users;
   int count;
 
   factory Prescriptions.fromJson(Map<String, dynamic> json) => Prescriptions(
-    users: List<Prescription>.from(json["users"].map((x) => Prescription.fromJson(x))),
+    users: List<DoctorPrescription>.from(json["users"].map((x) => DoctorPrescription.fromJson(x))),
     count: json["count"],
   );
 
@@ -29,21 +29,42 @@ class Prescription {
     this.id,
     this.doctorId,
     this.patientId,
-    this.prescriptionCount,
+    this.medicineId,
+    this.morningNumber,
+    this.morningTime,
+    this.noonNumber,
+    this.noonTime,
+    this.eveningNumber,
+    this.eveningTime,
+    this.code,
     this.createDate,
   });
 
-  int id;
-  int doctorId;
-  int patientId;
-  int prescriptionCount;
+  String id;
+  String doctorId;
+  String patientId;
+  String medicineId;
+  String morningNumber;
+  String morningTime;
+  String noonNumber;
+  String noonTime;
+  String eveningNumber;
+  String eveningTime;
+  String code;
   DateTime createDate;
 
   factory Prescription.fromJson(Map<String, dynamic> json) => Prescription(
     id: json["id"],
     doctorId: json["doctor_id"],
     patientId: json["patient_id"],
-    prescriptionCount: json["prescription_count"],
+    medicineId: json["medicine_id"],
+    morningNumber: json["morning_number"],
+    morningTime: json["morning_time"],
+    noonNumber: json["noon_number"],
+    noonTime: json["noon_time"],
+    eveningNumber: json["evening_number"],
+    eveningTime: json["evening_time"],
+    code: json["code"],
     createDate: DateTime.parse(json["create_date"]),
   );
 
@@ -51,10 +72,18 @@ class Prescription {
     "id": id,
     "doctor_id": doctorId,
     "patient_id": patientId,
-    "prescription_count": prescriptionCount,
+    "medicine_id": medicineId,
+    "morning_number": morningNumber,
+    "morning_time": morningTime,
+    "noon_number": noonNumber,
+    "noon_time": noonTime,
+    "evening_number": eveningNumber,
+    "evening_time": eveningTime,
+    "code": code,
     "create_date": createDate.toIso8601String(),
   };
 }
+
 
 class PatientPrescription {
   PatientPrescription({
@@ -124,6 +153,54 @@ class PatientPrescription {
     "noon_time": noonTime,
     "evening_number": eveningNumber,
     "evening_time": eveningTime,
+    "create_date": createDate.toIso8601String(),
+  };
+}
+
+class DoctorPrescription {
+  DoctorPrescription({
+    this.id,
+    this.doctorId,
+    this.patientId,
+    this.medicineId,
+    this.code,
+    this.name,
+    this.surname,
+    this.medicineName,
+    this.createDate,
+  });
+
+  String id;
+  String doctorId;
+  String patientId;
+  String medicineId;
+  String code;
+  String name;
+  String surname;
+  String medicineName;
+  DateTime createDate;
+
+  factory DoctorPrescription.fromJson(Map<String, dynamic> json) => DoctorPrescription(
+    id: json["id"],
+    doctorId: json["doctor_id"],
+    patientId: json["patient_id"],
+    medicineId: json["medicine_id"],
+    code: json["code"],
+    name: json["name"],
+    surname: json["surname"],
+    medicineName: json["medicine_name"],
+    createDate: DateTime.parse(json["create_date"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "doctor_id": doctorId,
+    "patient_id": patientId,
+    "medicine_id": medicineId,
+    "code": code,
+    "name": name,
+    "surname": surname,
+    "medicine_name": medicineName,
     "create_date": createDate.toIso8601String(),
   };
 }
